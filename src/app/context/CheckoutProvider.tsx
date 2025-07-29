@@ -50,6 +50,7 @@ interface CheckoutContextType {
   error: string | null;
   orderData: OrderData | null;
   isOrderComplete: boolean;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   checkout: (checkoutData: any) => Promise<void>;
   clearOrder: () => void;
 }
@@ -78,6 +79,7 @@ export const CheckoutProvider: React.FC<CheckoutProviderProps> = ({
   const [orderData, setOrderData] = useState<OrderData | null>(null);
   const [isOrderComplete, setIsOrderComplete] = useState(false);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const checkout = useCallback(async (checkoutData: any) => {
     try {
       setLoading(true);

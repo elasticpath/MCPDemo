@@ -9,15 +9,8 @@ interface CartSidebarProps {
 }
 
 export default function CartSidebar({ isOpen, onClose }: CartSidebarProps) {
-  const {
-    items,
-    cart,
-    loading,
-    error,
-    updateQuantity,
-    removeFromCart,
-    totalAmount,
-  } = useCart();
+  const { items, loading, error, updateQuantity, removeFromCart, totalAmount } =
+    useCart();
   const [updatingItems, setUpdatingItems] = useState<Set<string>>(new Set());
 
   const handleQuantityChange = async (itemId: string, newQuantity: number) => {

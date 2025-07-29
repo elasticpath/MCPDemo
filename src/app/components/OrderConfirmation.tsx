@@ -43,7 +43,8 @@ export default function OrderConfirmation({
           Order Confirmed!
         </h1>
         <p className="text-gray-600 text-lg">
-          Thank you for your order. We'll send you a confirmation email shortly.
+          Thank you for your order. We&apos;ll send you a confirmation email
+          shortly.
         </p>
       </div>
 
@@ -174,11 +175,11 @@ export default function OrderConfirmation({
       {/* Next Steps */}
       <div className="bg-blue-50 rounded-lg border border-blue-200 p-6 mb-6">
         <h2 className="text-lg font-semibold text-blue-900 mb-2">
-          What's Next?
+          What&apos;s Next?
         </h2>
         <ul className="text-blue-800 space-y-1">
-          <li>• You'll receive an order confirmation email shortly</li>
-          <li>• We'll notify you when your order ships</li>
+          <li>• You&apos;ll receive an order confirmation email shortly</li>
+          <li>• We&apos;ll notify you when your order ships</li>
           <li>• Track your order status in your email</li>
         </ul>
       </div>

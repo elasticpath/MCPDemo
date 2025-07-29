@@ -21,7 +21,7 @@ export function configureClient(): void {
    * Enables Elastic Path's Multi-Location Inventory (MLI) feature by adding
    * the required header to all requests.
    */
-  client.interceptors.request.use(async (request, options) => {
+  client.interceptors.request.use(async (request, _options) => {
     request.headers.set("EP-Inventories-Multi-Location", "true");
     return request;
   });
