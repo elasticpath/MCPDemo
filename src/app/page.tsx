@@ -1,24 +1,44 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import AuthStatus from "./components/AuthStatus";
 import ProductGrid from "./components/ProductGrid";
+import CartButton from "./components/CartButton";
+import CartSidebar from "./components/CartSidebar";
+import CartSuccessNotification from "./components/CartSuccessNotification";
 import { useProducts } from "./hooks/useProducts";
+import { useCart } from "./context/CartProvider";
 
 export default function Home() {
   const { products, productImages, loading, error } = useProducts();
+  const { lastAddedProduct } = useCart();
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [showSuccessNotification, setShowSuccessNotification] = useState(false);
+
+  // Show success notification when item is added to cart
+  useEffect(() => {
+    if (lastAddedProduct) {
+      setShowSuccessNotification(true);
+    }
+  }, [lastAddedProduct]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-col gap-4">
-            <h1 className="text-3xl font-bold text-gray-900">
-              Elastic Path Product Store
-            </h1>
+          <div className="flex items-start justify-between">
+            <div className="flex flex-col gap-4">
+              <h1 className="text-3xl font-bold text-gray-900">
+                Elastic Path Product Store
+              </h1>
 
-            {/* Authentication Status */}
-            <AuthStatus />
+              {/* Authentication Status */}
+              <AuthStatus />
+            </div>
+
+            {/* Cart Button */}
+            <CartButton onClick={() => setIsCartOpen(true)} />
           </div>
         </div>
       </header>
@@ -73,6 +93,16 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Cart Sidebar */}
+      <CartSidebar isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
+
+      {/* Success Notification */}
+      <CartSuccessNotification
+        show={showSuccessNotification}
+        message="Item added to cart!"
+        onHide={() => setShowSuccessNotification(false)}
+      />
     </div>
   );
 }

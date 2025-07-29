@@ -1,6 +1,6 @@
-# Elastic Path Commerce Cloud Authentication & Product Listing
+# Elastic Path Commerce Cloud Authentication & Shopping Cart
 
-This Next.js application includes Elastic Path Commerce Cloud authentication setup with the Shopper SDK and a complete product listing page.
+This Next.js application includes Elastic Path Commerce Cloud authentication setup with the Shopper SDK, a complete product listing page, and full shopping cart functionality.
 
 ## Setup Instructions
 
@@ -49,11 +49,23 @@ This application includes:
 
 - **Product Grid**: Responsive grid layout displaying products
 - **Product Cards**: Beautiful product cards with images, names, prices, and descriptions
-- **Add to Cart**: Non-functional add to cart buttons (placeholder for future implementation)
 - **Loading States**: Smooth loading animations while fetching products
 - **Error Handling**: Graceful error handling with user-friendly messages
 - **Empty States**: Appropriate messages when no products are found
 - **Image Fallbacks**: Placeholder images for products without photos
+
+### ✅ Shopping Cart Features
+
+- **Add to Cart**: Functional "Add to Cart" buttons on all product cards
+- **Cart Management**: Add, update quantities, and remove items from cart
+- **Cart Sidebar**: Sliding cart sidebar showing cart contents
+- **Cart Button**: Header cart button with item count badge
+- **Real-time Updates**: Automatic cart refresh after operations
+- **Quantity Controls**: Increase/decrease item quantities in cart
+- **Cart Totals**: Display subtotals, taxes, and total amounts
+- **Success Notifications**: Toast notifications when items are added
+- **Persistent Cart**: Cart persists across browser sessions
+- **Error Handling**: Graceful error handling for all cart operations
 
 ## Authentication Flow
 
@@ -67,15 +79,35 @@ This application includes:
 1. **Data Fetching**: Uses `getByContextAllProducts` from the Elastic Path SDK
 2. **Image Processing**: Extracts and displays product main images
 3. **Responsive Design**: Grid adapts to different screen sizes
-4. **Interactive Elements**: Add to cart buttons with loading states (currently simulated)
+4. **Interactive Elements**: Functional add to cart buttons with loading states
+
+## Shopping Cart Flow
+
+1. **Cart Initialization**: Cart is automatically created using `initializeCart` on app load
+2. **Add to Cart**: Products are added using `manageCarts` API with real product IDs
+3. **Cart Display**: Cart sidebar shows items with quantities, prices, and totals
+4. **Cart Operations**: Users can update quantities or remove items using cart APIs
+5. **Persistence**: Cart ID is stored in localStorage and persists across sessions
 
 ## Components
 
+### Authentication
+
 - **StorefrontProvider**: React context provider for authentication state
 - **AuthStatus**: Visual component showing authentication status
+
+### Products
+
 - **ProductGrid**: Main grid component displaying all products
 - **ProductCard**: Individual product card component
 - **useProducts**: Custom hook for fetching and managing product data
+
+### Shopping Cart
+
+- **CartProvider**: React context for cart state management
+- **CartButton**: Header cart button with item count
+- **CartSidebar**: Sliding sidebar displaying cart contents
+- **CartSuccessNotification**: Toast notifications for cart actions
 
 ## File Structure
 
@@ -84,15 +116,20 @@ src/
 ├── app/
 │   ├── auth/
 │   │   └── StorefrontProvider.tsx    # Authentication context
+│   ├── context/
+│   │   └── CartProvider.tsx          # Cart context and operations
 │   ├── components/
 │   │   ├── AuthStatus.tsx            # Auth status indicator
 │   │   ├── ProductCard.tsx           # Individual product card
-│   │   └── ProductGrid.tsx           # Product grid layout
+│   │   ├── ProductGrid.tsx           # Product grid layout
+│   │   ├── CartButton.tsx            # Cart button with count
+│   │   ├── CartSidebar.tsx           # Cart sidebar display
+│   │   └── CartSuccessNotification.tsx # Success toast
 │   ├── hooks/
 │   │   └── useProducts.ts            # Product fetching hook
 │   ├── constants.ts                  # App constants
 │   ├── globals.css                   # Global styles
-│   ├── layout.tsx                    # Root layout
+│   ├── layout.tsx                    # Root layout with providers
 │   └── page.tsx                      # Main product listing page
 ├── lib/
 │   └── client.ts                     # SDK client configuration
@@ -119,23 +156,41 @@ To see products in the listing:
 4. Ensure your products are published to a catalog
 5. The products will automatically appear in your storefront
 
+### Using the Shopping Cart
+
+1. **Adding Items**: Click "Add to Cart" on any product card
+2. **Viewing Cart**: Click the cart icon in the header to open the cart sidebar
+3. **Managing Items**: Use +/- buttons to change quantities or click "Remove" to delete items
+4. **Cart Persistence**: Your cart will persist when you refresh the page or close/reopen the browser
+
+### Cart API Operations
+
+The cart uses the following Elastic Path SDK functions:
+
+- `initializeCart()`: Creates or retrieves existing cart
+- `manageCarts()`: Adds products to cart
+- `updateACartItem()`: Updates item quantities
+- `deleteACartItem()`: Removes items from cart
+- `getCart()`: Fetches cart with items and totals
+
 ### Customization
 
 - **Styling**: All components use Tailwind CSS for easy customization
 - **Product Layout**: Modify `ProductCard.tsx` to change the card layout
 - **Grid Configuration**: Adjust grid columns in `ProductGrid.tsx`
-- **Add to Cart**: Replace the placeholder `handleAddToCart` function with real cart functionality
+- **Cart UI**: Customize `CartSidebar.tsx` for different cart layouts
+- **Notifications**: Modify `CartSuccessNotification.tsx` for custom success messages
 
 ### Next Steps
 
 This implementation provides a foundation for:
 
-- Adding real cart functionality
-- Implementing product detail pages
-- Adding search and filtering
-- Product categories and hierarchies
-- Customer accounts and authentication
-- Checkout flow
+- **Checkout Flow**: Convert cart to order with customer information
+- **Product Detail Pages**: Individual product pages with variations
+- **Search and Filtering**: Product search and category filtering
+- **Customer Accounts**: User registration and login
+- **Order History**: Display past customer orders
+- **Promotions**: Discount codes and promotional pricing
 
 ## Security Notes
 

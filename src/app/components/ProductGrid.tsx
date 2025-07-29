@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
 import ProductCard from "./ProductCard";
+import { useCart } from "../context/CartProvider";
 
 interface Product {
   id?: string;
@@ -48,26 +48,14 @@ export default function ProductGrid({
   loading = false,
   error = null,
 }: ProductGridProps) {
-  const [addingToCart, setAddingToCart] = useState<string | null>(null);
+  const { addToCart, isAddingToCart } = useCart();
 
   const handleAddToCart = async (productId: string) => {
     try {
-      setAddingToCart(productId);
-
-      // Simulate add to cart operation
-      // In a real implementation, this would call an actual cart API
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
-      // TODO: Implement actual cart functionality
-      console.log(`Added product ${productId} to cart`);
-
-      // Show a success message or update cart state
-      // For now, we'll just log it
+      await addToCart(productId, 1);
     } catch (err) {
       console.error("Failed to add product to cart:", err);
-      // In a real implementation, show an error message to the user
-    } finally {
-      setAddingToCart(null);
+      // Error handling is managed by the CartProvider
     }
   };
 
@@ -142,7 +130,7 @@ export default function ProductGrid({
               product={product}
               productImages={productImages}
               onAddToCart={handleAddToCart}
-              isAddingToCart={addingToCart === product.id}
+              isAddingToCart={isAddingToCart === product.id}
             />
           )
       )}
