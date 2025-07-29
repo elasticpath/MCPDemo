@@ -6,6 +6,7 @@ import ProductGrid from "./components/ProductGrid";
 import CartButton from "./components/CartButton";
 import CartSidebar from "./components/CartSidebar";
 import CartSuccessNotification from "./components/CartSuccessNotification";
+import HeroSection from "./components/HeroSection";
 import { useProducts } from "./hooks/useProducts";
 import { useCart } from "./context/CartProvider";
 
@@ -30,7 +31,8 @@ export default function Home() {
           <div className="flex items-start justify-between">
             <div className="flex flex-col gap-4">
               <h1 className="text-3xl font-bold text-gray-900">
-                Elastic Path Product Store
+                <span className="text-red-600 font-extrabold">ISO</span>{" "}
+                Standards Store
               </h1>
 
               {/* Authentication Status */}
@@ -43,15 +45,18 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Hero Section */}
+      <HeroSection />
+
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h2 className="text-2xl font-semibold text-gray-900 mb-2">
-            Our Products
+            Featured Products
           </h2>
           <p className="text-gray-600">
-            Discover our amazing collection of products powered by Elastic Path
-            Commerce Cloud.
+            Explore our curated selection inspired by the international
+            standards community.
           </p>
         </div>
 
