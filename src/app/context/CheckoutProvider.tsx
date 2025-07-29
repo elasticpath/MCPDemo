@@ -3,10 +3,52 @@
 import React, { createContext, useContext, useState, useCallback } from "react";
 import { checkoutApi, getCartId, paymentSetup } from "@epcc-sdk/sdks-shopper";
 
+// Customer interface
+interface Customer {
+  name?: string;
+  email?: string;
+}
+
+// Display price interface
+interface DisplayPrice {
+  with_tax?: {
+    formatted?: string;
+  };
+}
+
+// Meta interface
+interface OrderMeta {
+  display_price?: DisplayPrice;
+}
+
+// Order data interface based on usage in OrderConfirmation
+interface OrderData {
+  id?: string;
+  reference?: string;
+  status?: string;
+  payment_status?: string;
+  meta?: OrderMeta;
+  customer?: Customer;
+  shipping_address?: {
+    first_name?: string;
+    last_name?: string;
+    company_name?: string;
+    line_1?: string;
+    line_2?: string;
+    city?: string;
+    county?: string;
+    region?: string;
+    postcode?: string;
+    country?: string;
+    phone_number?: string;
+    instructions?: string;
+  };
+}
+
 interface CheckoutContextType {
   loading: boolean;
   error: string | null;
-  orderData: any | null;
+  orderData: OrderData | null;
   isOrderComplete: boolean;
   checkout: (checkoutData: any) => Promise<void>;
   clearOrder: () => void;
@@ -33,7 +75,7 @@ export const CheckoutProvider: React.FC<CheckoutProviderProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [orderData, setOrderData] = useState<any | null>(null);
+  const [orderData, setOrderData] = useState<OrderData | null>(null);
   const [isOrderComplete, setIsOrderComplete] = useState(false);
 
   const checkout = useCallback(async (checkoutData: any) => {
@@ -83,7 +125,7 @@ export const CheckoutProvider: React.FC<CheckoutProviderProps> = ({
       }
 
       // Use the order data and add payment information
-      const orderWithPayment = {
+      const orderWithPayment: OrderData = {
         ...order,
         // Add payment status information if available in the response
         payment_status: "paid",

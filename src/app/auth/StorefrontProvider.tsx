@@ -60,7 +60,7 @@ export const StorefrontProvider: React.FC<StorefrontProviderProps> = ({
         });
 
         // Set up the authentication interceptor
-        const interceptor = async (request: any) => {
+        const interceptor = async (request: Request) => {
           // Bypass interceptor logic for token requests to prevent infinite loop
           if (request.url?.includes("/oauth/access_token")) {
             return request;
