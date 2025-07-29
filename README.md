@@ -67,6 +67,18 @@ This application includes:
 - **Persistent Cart**: Cart persists across browser sessions
 - **Error Handling**: Graceful error handling for all cart operations
 
+### ✅ Checkout Features
+
+- **Guest Checkout**: Complete checkout without creating an account
+- **Customer Information**: Collect contact details and addresses
+- **Billing & Shipping**: Separate billing and shipping address forms
+- **Order Creation**: Convert cart to order using Elastic Path APIs
+- **Order Confirmation**: Beautiful confirmation page with order details
+- **Form Validation**: Client-side validation for required fields
+- **Loading States**: Visual feedback during checkout process
+- **Error Handling**: Graceful error handling with user feedback
+- **Responsive Design**: Mobile-friendly checkout experience
+
 ## Authentication Flow
 
 1. **Automatic Authentication**: When the app loads, it automatically requests an implicit token from Elastic Path
@@ -89,6 +101,14 @@ This application includes:
 4. **Cart Operations**: Users can update quantities or remove items using cart APIs
 5. **Persistence**: Cart ID is stored in localStorage and persists across sessions
 
+## Checkout Flow
+
+1. **Start Checkout**: User clicks "Checkout" button in cart sidebar
+2. **Guest Information**: Customer fills out contact information and addresses
+3. **Order Creation**: Form data is converted to order using `checkoutApi`
+4. **Order Confirmation**: Success page displays order details and next steps
+5. **Cart Cleanup**: Cart ID is cleared after successful order creation
+
 ## Components
 
 ### Authentication
@@ -109,6 +129,13 @@ This application includes:
 - **CartSidebar**: Sliding sidebar displaying cart contents
 - **CartSuccessNotification**: Toast notifications for cart actions
 
+### Checkout
+
+- **CheckoutProvider**: React context for checkout state management
+- **CheckoutForm**: Guest checkout form with address collection
+- **OrderConfirmation**: Order success page with details
+- **CheckoutPage**: Main checkout page component
+
 ## File Structure
 
 ```
@@ -117,14 +144,19 @@ src/
 │   ├── auth/
 │   │   └── StorefrontProvider.tsx    # Authentication context
 │   ├── context/
-│   │   └── CartProvider.tsx          # Cart context and operations
+│   │   ├── CartProvider.tsx          # Cart context and operations
+│   │   └── CheckoutProvider.tsx      # Checkout context and operations
 │   ├── components/
 │   │   ├── AuthStatus.tsx            # Auth status indicator
 │   │   ├── ProductCard.tsx           # Individual product card
 │   │   ├── ProductGrid.tsx           # Product grid layout
 │   │   ├── CartButton.tsx            # Cart button with count
 │   │   ├── CartSidebar.tsx           # Cart sidebar display
-│   │   └── CartSuccessNotification.tsx # Success toast
+│   │   ├── CartSuccessNotification.tsx # Success toast
+│   │   ├── CheckoutForm.tsx          # Guest checkout form
+│   │   └── OrderConfirmation.tsx     # Order confirmation page
+│   ├── checkout/
+│   │   └── page.tsx                  # Checkout page
 │   ├── hooks/
 │   │   └── useProducts.ts            # Product fetching hook
 │   ├── constants.ts                  # App constants
@@ -163,6 +195,14 @@ To see products in the listing:
 3. **Managing Items**: Use +/- buttons to change quantities or click "Remove" to delete items
 4. **Cart Persistence**: Your cart will persist when you refresh the page or close/reopen the browser
 
+### Using Checkout
+
+1. **Start Checkout**: Click "Checkout" button in the cart sidebar
+2. **Fill Information**: Complete the contact information and address forms
+3. **Address Options**: Choose to use the same address for billing and shipping, or enter separate addresses
+4. **Complete Order**: Click "Complete Order" to create the order
+5. **Order Confirmation**: View your order details and confirmation information
+
 ### Cart API Operations
 
 The cart uses the following Elastic Path SDK functions:
@@ -173,6 +213,13 @@ The cart uses the following Elastic Path SDK functions:
 - `deleteACartItem()`: Removes items from cart
 - `getCart()`: Fetches cart with items and totals
 
+### Checkout API Operations
+
+The checkout uses the following Elastic Path SDK functions:
+
+- `checkoutApi()`: Converts cart to order with customer information
+- `getCartId()`: Retrieves current cart ID for checkout process
+
 ### Customization
 
 - **Styling**: All components use Tailwind CSS for easy customization
@@ -180,17 +227,21 @@ The cart uses the following Elastic Path SDK functions:
 - **Grid Configuration**: Adjust grid columns in `ProductGrid.tsx`
 - **Cart UI**: Customize `CartSidebar.tsx` for different cart layouts
 - **Notifications**: Modify `CartSuccessNotification.tsx` for custom success messages
+- **Checkout Form**: Modify `CheckoutForm.tsx` to add/remove form fields
+- **Order Confirmation**: Customize `OrderConfirmation.tsx` for different confirmation layouts
 
 ### Next Steps
 
 This implementation provides a foundation for:
 
-- **Checkout Flow**: Convert cart to order with customer information
+- **Payment Processing**: Add payment gateways (credit cards, PayPal, etc.)
 - **Product Detail Pages**: Individual product pages with variations
 - **Search and Filtering**: Product search and category filtering
 - **Customer Accounts**: User registration and login
 - **Order History**: Display past customer orders
 - **Promotions**: Discount codes and promotional pricing
+- **Order Management**: Order status updates and tracking
+- **Email Notifications**: Order confirmation and shipping emails
 
 ## Security Notes
 

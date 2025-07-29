@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { StorefrontProvider } from "./auth/StorefrontProvider";
 import { CartProvider } from "./context/CartProvider";
+import { CheckoutProvider } from "./context/CheckoutProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,7 +18,9 @@ export default function RootLayout({
     <html lang="en">
       <body className="antialiased">
         <StorefrontProvider>
-          <CartProvider>{children}</CartProvider>
+          <CartProvider>
+            <CheckoutProvider>{children}</CheckoutProvider>
+          </CartProvider>
         </StorefrontProvider>
       </body>
     </html>
