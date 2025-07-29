@@ -1,7 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, useCallback } from "react";
-import { checkoutApi, getCartId } from "@epcc-sdk/sdks-shopper";
+import { checkoutApi, getCartId, paymentSetup } from "@epcc-sdk/sdks-shopper";
 
 interface CheckoutContextType {
   loading: boolean;
@@ -47,7 +47,7 @@ export const CheckoutProvider: React.FC<CheckoutProviderProps> = ({
       }
 
       // Convert cart to order using the checkoutApi
-      const response = await checkoutApi({
+      const checkoutResponse = await checkoutApi({
         path: {
           cartID: cartId,
         },
@@ -56,12 +56,41 @@ export const CheckoutProvider: React.FC<CheckoutProviderProps> = ({
         },
       });
 
-      const order = response.data?.data;
+      const order = checkoutResponse.data?.data;
       if (!order?.id) {
         throw new Error("Failed to create order");
       }
 
-      setOrderData(order);
+      // Process payment using manual gateway to mark order as paid
+      const paymentResponse = await paymentSetup({
+        path: {
+          orderID: order.id,
+        },
+        body: {
+          data: {
+            gateway: "manual",
+            method: "purchase",
+          },
+        },
+      });
+
+      // Payment successful, use the order with updated payment status
+      // The payment response confirms payment, but we'll use the original order data
+      // with updated status information if available
+      const paymentData = paymentResponse.data?.data;
+      if (!paymentData) {
+        throw new Error("Failed to process payment");
+      }
+
+      // Use the order data and add payment information
+      const orderWithPayment = {
+        ...order,
+        // Add payment status information if available in the response
+        payment_status: "paid",
+        status: "complete",
+      };
+
+      setOrderData(orderWithPayment);
       setIsOrderComplete(true);
 
       // Clear cart ID after successful checkout

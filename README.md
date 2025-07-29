@@ -73,9 +73,10 @@ This application includes:
 - **Customer Information**: Collect contact details and addresses
 - **Billing & Shipping**: Separate billing and shipping address forms
 - **Order Creation**: Convert cart to order using Elastic Path APIs
-- **Order Confirmation**: Beautiful confirmation page with order details
+- **Payment Processing**: Automatic payment using manual gateway
+- **Order Confirmation**: Beautiful confirmation page with paid order details
 - **Form Validation**: Client-side validation for required fields
-- **Loading States**: Visual feedback during checkout process
+- **Loading States**: Visual feedback during checkout and payment process
 - **Error Handling**: Graceful error handling with user feedback
 - **Responsive Design**: Mobile-friendly checkout experience
 
@@ -106,8 +107,9 @@ This application includes:
 1. **Start Checkout**: User clicks "Checkout" button in cart sidebar
 2. **Guest Information**: Customer fills out contact information and addresses
 3. **Order Creation**: Form data is converted to order using `checkoutApi`
-4. **Order Confirmation**: Success page displays order details and next steps
-5. **Cart Cleanup**: Cart ID is cleared after successful order creation
+4. **Payment Processing**: Order is automatically paid using `paymentSetup` with manual gateway
+5. **Order Confirmation**: Success page displays paid order details and next steps
+6. **Cart Cleanup**: Cart ID is cleared after successful checkout and payment
 
 ## Components
 
@@ -218,6 +220,7 @@ The cart uses the following Elastic Path SDK functions:
 The checkout uses the following Elastic Path SDK functions:
 
 - `checkoutApi()`: Converts cart to order with customer information
+- `paymentSetup()`: Processes payment using manual gateway to mark order as paid
 - `getCartId()`: Retrieves current cart ID for checkout process
 
 ### Customization
